@@ -4,22 +4,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public final class Parser {
 	
-	public static ArrayList<HashSet<Integer>> cellDomain = null;
-	private static int filledCells = 0;
+	private Integer filledCells;
 	
-	
-	public Parser(ArrayList<HashSet<Integer>> cellDomain) {
+	public Parser() {
 		super();
-		Parser.cellDomain = cellDomain;
+		this.filledCells = 0;
 	}
 
-	final static int[][] readBoard(final File file) throws IOException {
+	final int[][] readBoard(final File file) throws IOException, NotEnoughCluesException {
 		int[][] board = new int[9][9];
+		
 		BufferedReader input = new BufferedReader(new FileReader(file));
 
 		try {
@@ -28,14 +26,15 @@ public final class Parser {
 
 			while ((line = input.readLine()) != null) {
 				if (line.length() != 9 || lineIndex > 8) {
-					throw new IOException();
+					throw new IOException("(invalid puzzle format or size)");
 				}
 
 				for (int letterIndex = 0; letterIndex < 9; letterIndex++) {
 
 					int value;
-
-					if (line.charAt(letterIndex) == 'X') {
+					
+					char cell = line.charAt(letterIndex);
+					if (cell == 'X') {
 						value = 0;
 
 						// before constraint propagation the domain of an empty cell is 1-9
@@ -47,16 +46,16 @@ public final class Parser {
 
 					} 
 					else {
-						value = Character.getNumericValue(line.charAt(letterIndex));
+						value = Character.getNumericValue(cell);
 						// the domain of an empty cell is it's value
 						HashSet<Integer> set = new HashSet<Integer>();
 						set.add(value);
 						Solver.cellDomain.add(set);
-						filledCells++;
+						this.filledCells++;
 					}
 
 					if (value < 0 || value > 9) {
-						throw new IOException();
+						throw new IOException("(invalid cell entry: "+cell+")");
 					}
 
 					board[lineIndex][letterIndex] = value;
@@ -71,8 +70,10 @@ public final class Parser {
 		} finally {
 			input.close();
 		}
+		if(filledCells < 17) {
+			throw new NotEnoughCluesException("(board has only "+filledCells.toString()+" clues)");
+		}
 		
-		//Solver.setCellDomain(cellDomain);
 		return board;
 	}
 	

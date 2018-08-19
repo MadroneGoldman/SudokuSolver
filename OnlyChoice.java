@@ -27,8 +27,6 @@ public class OnlyChoice {
 							change = true;
 							pointer.clear();
 							pointer.add(element);
-							System.out.println("only choice solve");
-							//Eliminator.eliminate(row, col ,element);
 						}	
 					}	
 				}

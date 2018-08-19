@@ -3,6 +3,18 @@ package com.goldman;
 import java.util.HashSet;
 
 public final class Eliminator {
+
+	public static void sweep() {
+		for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				HashSet<Integer> pointer = Solver.cellDomain.get((row*9)+col);
+				if( pointer.size() == 1 ) {
+					Eliminator.eliminate(row, col, pointer.iterator().next() );
+				}
+			}
+		}
+		return;
+	}
 	
 	public static void eliminate(int row, int col, int value) {
 		peerRow(row, col, value);
@@ -47,7 +59,6 @@ public final class Eliminator {
 	}
 
 	private final static void peerRow(int row, int col, int value) {
-		//System.out.println(row+" "+col);
 		
 		for (int i = 0; i < 9; i++) {
 			HashSet<Integer> pointer = Solver.cellDomain.get((row*9) + i);

@@ -1,6 +1,5 @@
 package com.goldman;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -34,8 +33,22 @@ public final class Backtrack {
 		return true;
 	}
 	
-	private final static boolean containsInRow(int row, int number, int[][] board) {
+	public final static boolean  validBoard(int[][] board) {
+		for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				if(board[row][col] == 0) {continue;}
+				if(!isValid(row, col,board[row][col], board)) {
+					System.out.println("row: "+row+" col: "+col+" cell: "+board[row][col]);
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	private final static boolean containsInRow(int row, int col, int number, int[][] board) {
 		for (int i = 0; i < 9; i++) {
+			if(i == col) {continue;}
 			if (board[row][i] == number) {
 				return true;
 			}
@@ -43,8 +56,9 @@ public final class Backtrack {
 		return false;
 	}
 
-	private final static boolean containsInCol(int col, int number, int[][] board) {
+	private final static boolean containsInCol(int row, int col, int number, int[][] board) {
 		for (int i = 0; i < 9; i++) {
+			if(i == row) {continue;}
 			if (board[i][col] == number) {
 				return true;
 			}
@@ -57,6 +71,7 @@ public final class Backtrack {
 		int c = col - col % 3;
 		for (int i = r; i < r + 3; i++) {
 			for (int j = c; j < c + 3; j++) {
+				if(i == row  && j == col) {continue;}
 				if (board[i][j] == number) {
 					return true;
 				}
@@ -67,7 +82,7 @@ public final class Backtrack {
 	}
 
 	private final static boolean isValid(int row, int col, int number, int[][] board) {
-		return !(containsInRow(row, number, board) || containsInCol(col, number, board)
+		return !(containsInRow(row, col, number, board) || containsInCol(row, col, number, board)
 				|| containsInBox(row, col, number, board));
 	}
 }

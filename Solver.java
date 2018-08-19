@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 
 
@@ -15,104 +13,133 @@ public final class Solver {
 
 	public static ArrayList<HashSet<Integer>> cellDomain = new ArrayList<HashSet<Integer>>();	
 
-	public static ArrayList<HashSet<Integer>> getCellDomain() {
-		return cellDomain;
-	}
-
-	public static void setCellDomain(ArrayList<HashSet<Integer>> cellDomain) {
-		Solver.cellDomain = cellDomain;
-	}
-
 	public static final void main(String[] args) {
-
-		try {
-			int[][] board;
-
-			File boardFile = new File("D:\\Downloads\\Sudoku Challenge\\hard.txt");
-			//boardFile = GetFile();
-
-			board = Parser.readBoard(boardFile);
-			printDomain(cellDomain);
-			//printBoard(board);
-
-			constraintPropagation();
+		
+		System.out.print("\r\n" + 
+				"  _____ __ __  ___     ___   __  _  __ __       _____  ___   _      __ __    ___  ____  \r\n" + 
+				" / ___/|  |  ||   \\   /   \\ |  |/ ]|  |  |     / ___/ /   \\ | |    |  |  |  /  _]|    \\ \r\n" + 
+				"(   \\_ |  |  ||    \\ |     ||  ' / |  |  |    (   \\_ |     || |    |  |  | /  [_ |  D  )\r\n" + 
+				" \\__  ||  |  ||  D  ||  O  ||    \\ |  |  |     \\__  ||  O  || |___ |  |  ||    _]|    / \r\n" + 
+				" /  \\ ||  :  ||     ||     ||     \\|  :  |     /  \\ ||     ||     ||  :  ||   [_ |    \\ \r\n" + 
+				" \\    ||     ||     ||     ||  .  ||     |     \\    ||     ||     | \\   / |     ||  .  \\\r\n" + 
+				"  \\___| \\__,_||_____| \\___/ |__|\\_| \\__,_|      \\___| \\___/ |_____|  \\_/  |_____||__|\\_|\r\n" + 
+				"                                                                                        \r\n" + 
+				"");
 			
-			final long timeBefore = System.nanoTime();
+		boolean run = true;
+		while(run) {
 			
-			printDomain(cellDomain);
+			cellDomain.clear();
+			System.out.println("Type 1 to solve all 5 challenge puzzles");
+			System.out.println("Type 2 to solve a specific puzzle");
+			System.out.println("Type 3 to exit");
+			System.out.println("Enter choice here: ");
 			
-			
-			
-			Backtrack.solve(board);
-
-			final long timeAfter = System.nanoTime();
-
-			System.out.println("solved in " + ((timeAfter - timeBefore)/1000000) + " miliseconds");
-
-			printBoard(board);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void printDomain(ArrayList<HashSet<Integer>> cellDomain) {
-		int count = 0;
-		for(HashSet<Integer> set:cellDomain) {
-			count+=set.size();
-			/*Integer[] arry =set.toArray(new Integer[set.size()]);
-			
-			for(Integer i:arry) {
-				System.out.print(i);
-			}
-			System.out.println(" ");*/
-			
-		}
-		System.out.println("count: "+count);
-	}
-
-	public final static void constraintPropagation(){
-		//make sweep board method for eliminator and delete contraint prop class
-		/////////////elimination rule
-		for (int row = 0; row < 9; row++) {
-			for (int col = 0; col < 9; col++) {
-				HashSet<Integer> pointer = cellDomain.get((row*9)+col);
-				if( pointer.size() == 1 ) {
-					Eliminator.eliminate(row, col, pointer.iterator().next() );
+			String option = null;
+			Scanner input = new Scanner(System.in);
+			while(true) {
+				try{
+					option = input.nextLine();
+					if(!option.equals("1") && !option.equals("2") && !option.equals("3")) {
+						throw new InputMismatchException("not an option");
+					}
+					break;
 				}
+			    catch (InputMismatchException e) {
+						System.out.println("Incorrect input. Please enter a valid option: ");
+						continue;
+				}	
 			}
+			
+			int s = Integer.parseInt(option);
+			
+			switch(s) {
+				/* ################  solve all puzzle case  ################*/
+				case 1:
+					System.out.println("solved all");
+					String[] puzzles = new String[5];
+					puzzles[0] = System.getProperty("user.dir")+"\\puzzles\\puzzle1.txt";
+					puzzles[1] = System.getProperty("user.dir")+"\\puzzles\\puzzle2.txt";
+					puzzles[2] = System.getProperty("user.dir")+"\\puzzles\\puzzle3.txt";
+					puzzles[3] = System.getProperty("user.dir")+"\\puzzles\\puzzle4.txt";
+					puzzles[4] = System.getProperty("user.dir")+"\\puzzles\\puzzle5.txt";
+					
+					try {
+						for(String fileName:puzzles) {
+							solve(fileName);
+						}	
+					}catch (InputMismatchException e) {
+						System.out.println("incorrect input");
+					}
+					finally {
+						System.out.println("\nPress enter to restart");
+						input.nextLine();
+					}
+					continue;
+					
+					/* ################  solve specific puzzle case  ################*/
+				case 2:
+					try {
+						System.out.println("Enter filepath of the Sudoku puzzle: ");
+				        String fileName = input.nextLine();
+				        solve(fileName);
+
+					} catch (InputMismatchException e) {
+						System.out.println("incorrect input");
+					}
+					finally {
+						System.out.println("\nPress enter to restart");
+						input.nextLine();
+					}
+					
+					continue;
+					
+				/* ################  exit case  ################*/
+				case 3:
+					input.close();
+					run = false;
+					break;
+			}
+			break;
 		}
-		
-		printDomain(cellDomain);
-		/////////////only choice rule
-		OnlyChoice.onlyChoice();
-		
-		return;
+	
 	}
 	
-	private final static void printBoard(final int[][] board) {
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				System.out.print(board[i][j]);
+	
+	private static void solve(String fileName) {
+		try {
+			if(!fileName.substring(fileName.length()-4).equals(".txt")) {
+				throw new IOException("(invalid file type. Please use .txt)");
 			}
-
-			System.out.println();
-		}
-	}
-
-	private static File GetFile() {
-		JFileChooser chooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "text");
-		chooser.setFileFilter(filter);
-		int returnVal = chooser.showOpenDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
 			
+			int[][] board;
+			File boardFile = new File(fileName);
+			Printer printer = new Printer();
+			Parser parser = new Parser();
+			
+			board = parser.readBoard(boardFile);
+			if(!Backtrack.validBoard(board)) {
+				throw new IOException("(Invalid puzzle)");
+			}
+			
+			System.out.println("\nUnsolved puzzle:");
+			printer.printBoard(board);
+			
+			final long timeBefore = System.nanoTime();
+			Eliminator.sweep();
+			OnlyChoice.onlyChoice();
+			Backtrack.solve(board);
+			final long timeAfter = System.nanoTime();
+			
+			System.out.println("\nSolved puzzle:");
+			printer.printBoard(board);
+			System.out.println("solved in " + ((timeAfter - timeBefore)/1000000) + " miliseconds");
+			
+			printer.outputBoard(board, boardFile.getName());
+			
+		} catch (IOException | NotEnoughCluesException e) {
+			System.out.println("ERROR "+e.getMessage());
 		}
-
-		return chooser.getSelectedFile();
 	}
 
 }
