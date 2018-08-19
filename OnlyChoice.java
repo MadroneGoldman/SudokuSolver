@@ -5,8 +5,7 @@ import java.util.HashSet;
 
 public class OnlyChoice {
 	
-	static void onlyChoice(int[][] board) {
-		
+	static void onlyChoice() {
 		boolean change = true;
 		
 		while(change) {
@@ -20,26 +19,22 @@ public class OnlyChoice {
 					if(pointer.size() == 1) {continue;}
 				    
 				    for(Integer element:domain) {
-						//System.out.println("ewdf: "+element);
 						
 						//continue if cell is empty or cell doesn't satisfy the "only choice" rule
 						if(!onlyChoiceHelper(row, col, element)) {
 							continue;}
 						else {
 							change = true;
-							//clear domain, add value , elim
-							//for any newly solved cells constrain the domains of the cell's peers
 							pointer.clear();
 							pointer.add(element);
-							Eliminator.eliminate(row, col ,board);
+							System.out.println("only choice solve");
+							//Eliminator.eliminate(row, col ,element);
 						}	
 					}	
 				}
 			}
 		}
 
-		
-		
 		return;
 	}
 

@@ -12,19 +12,10 @@ public final class Backtrack {
 			for (int col = 0; col < 9; col++) {
 				
 				if (board[row][col] == 0) {
-					
-					// TODO loop through domain
-					//for (int number = 1; number <= 9; number++) {
-					//System.out.println("row: "+row+", col: "+col+"  : "+board[row][col]);
-					
 					HashSet<Integer> pointer = Solver.cellDomain.get((row*9) + col);
 					Iterator<Integer> itr = pointer.iterator();
 					while (itr.hasNext()) {
-						
-						
 						int number = itr.next();
-						
-						//System.out.println("trying: "+number+" for row: "+row+", col: "+col);
 						
 						if (isValid(row, col, number, board)) {
 							board[row][col] = number;
@@ -36,7 +27,6 @@ public final class Backtrack {
 							}
 						}
 					}
-						
 					return false;
 				}
 			}

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -14,11 +13,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public final class Solver {
 
-	public static ArrayList<HashSet<Integer>> cellDomain = new ArrayList<HashSet<Integer>>();
-	public static LinkedList<Integer> solvedCells = new LinkedList<Integer>(); 
-    
-	
-	
+	public static ArrayList<HashSet<Integer>> cellDomain = new ArrayList<HashSet<Integer>>();	
+
 	public static ArrayList<HashSet<Integer>> getCellDomain() {
 		return cellDomain;
 	}
@@ -32,18 +28,20 @@ public final class Solver {
 		try {
 			int[][] board;
 
-			File boardFile = new File("D:\\Downloads\\Sudoku Challenge\\puzzle3.txt");
+			File boardFile = new File("D:\\Downloads\\Sudoku Challenge\\hard.txt");
 			//boardFile = GetFile();
 
 			board = Parser.readBoard(boardFile);
-			//printDomain(cellDomain);
+			printDomain(cellDomain);
 			//printBoard(board);
 
-			board = constraintPropagation(board);
+			constraintPropagation();
 			
 			final long timeBefore = System.nanoTime();
 			
-			//printDomain(cellDomain);
+			printDomain(cellDomain);
+			
+			
 			
 			Backtrack.solve(board);
 
@@ -75,33 +73,23 @@ public final class Solver {
 		System.out.println("count: "+count);
 	}
 
-	public final static int[][] constraintPropagation(int[][] board){
-		
-		//elimination rule
+	public final static void constraintPropagation(){
+		//make sweep board method for eliminator and delete contraint prop class
+		/////////////elimination rule
 		for (int row = 0; row < 9; row++) {
 			for (int col = 0; col < 9; col++) {
-				
-				//if(board[row][col] == 0) {continue;}
-				if( cellDomain.get((row*9)+col).size() > 1 ) {continue;}
-				board = Eliminator.eliminate(row, col, board);
-				
-				//for any newly solved cells constrain the domains of the cell's peers
-				Iterator<Integer> itr = solvedCells.iterator();
-				while (itr.hasNext()) {
-				    Integer cell = itr.next();
-				    Eliminator.eliminate(cell/9, cell%9 ,board);
-				    itr.remove();
-				}	
+				HashSet<Integer> pointer = cellDomain.get((row*9)+col);
+				if( pointer.size() == 1 ) {
+					Eliminator.eliminate(row, col, pointer.iterator().next() );
+				}
 			}
 		}
 		
 		printDomain(cellDomain);
-		//only choice rule
-		OnlyChoice.onlyChoice(board);
+		/////////////only choice rule
+		OnlyChoice.onlyChoice();
 		
-
-		
-		return board;
+		return;
 	}
 	
 	private final static void printBoard(final int[][] board) {

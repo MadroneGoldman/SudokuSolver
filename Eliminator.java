@@ -4,16 +4,15 @@ import java.util.HashSet;
 
 public final class Eliminator {
 	
-	public static int[][] eliminate(int row, int col, int[][] board) {
-		board = peerRow(row, col, board);
-		board = peerCol(row, col, board);
-		board = peerBox(row, col, board);
+	public static void eliminate(int row, int col, int value) {
+		peerRow(row, col, value);
+		peerCol(row, col, value);
+		peerBox(row, col, value);
 		
-		return board;
+		return;
 	}
 
-	private final static int[][] peerBox(int row, int col, int[][] board) {
-		int value = board[row][col];
+	private final static void peerBox(int row, int col, int value) {
 		
 		int r = row - row % 3;
 		int c = col - col % 3;
@@ -24,16 +23,15 @@ public final class Eliminator {
 				if(pointer.size() > 1) {
 					pointer.remove(value);
 					if(pointer.size() == 1) {
-						Solver.solvedCells.add((i*9) + j);
+						eliminate(i, j, pointer.iterator().next());
 					}
 				}
 			}
 		}
-		return board;
+		return ;
 	}
 
-	private final static int[][] peerCol(int row, int col, int[][] board) {
-		int value = board[row][col];
+	private final static void peerCol(int row, int col, int value) {
 		
 		for (int i = 0; i < 9; i++) {
 			HashSet<Integer> pointer = Solver.cellDomain.get((i*9) + col);
@@ -41,18 +39,15 @@ public final class Eliminator {
 			if(pointer.size() > 1) {
 				pointer.remove(value);
 				if(pointer.size() == 1) {
-					Solver.solvedCells.add((i*9) + col);
-					//Iterator<Integer> newValue = pointer.iterator();
-					//board[i][col] = newValue.next(); 
+					eliminate(i, col, pointer.iterator().next());
 				}
 			}
 		}
-		return board;
+		return ;
 	}
 
-	private final static int[][] peerRow(int row, int col, int[][] board) {
+	private final static void peerRow(int row, int col, int value) {
 		//System.out.println(row+" "+col);
-		int value = board[row][col];
 		
 		for (int i = 0; i < 9; i++) {
 			HashSet<Integer> pointer = Solver.cellDomain.get((row*9) + i);
@@ -60,10 +55,10 @@ public final class Eliminator {
 			if(pointer.size() > 1) {
 				pointer.remove(value);
 				if(pointer.size() == 1) {
-					Solver.solvedCells.add((row*9) + i);
+					eliminate(row, i, pointer.iterator().next());
 				}
 			}
 		}
-		return board;
+		return;
 	}
 }
