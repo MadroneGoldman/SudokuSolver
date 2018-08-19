@@ -1,2 +1,2 @@
 # SudokuSolver
-A Sudoku solving application using constraint propagation
+An application that solves Sudoku puzzles with a constraint propagation algorithm
