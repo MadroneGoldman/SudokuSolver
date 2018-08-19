@@ -69,7 +69,9 @@ public final class Solver {
 							solve(fileName);
 						}	
 					}catch (InputMismatchException e) {
-						System.out.println("incorrect input");
+						System.out.println("ERROR incorrect input");
+					} catch (IOException e) {
+						System.out.println("ERROR "+e.getMessage());
 					}
 					finally {
 						System.out.println("\nPress enter to restart");
@@ -85,7 +87,9 @@ public final class Solver {
 				        solve(fileName);
 
 					} catch (InputMismatchException e) {
-						System.out.println("incorrect input");
+						System.out.println("ERROR incorrect input");
+					} catch (IOException e) {
+						System.out.println("ERROR "+e.getMessage());
 					}
 					finally {
 						System.out.println("\nPress enter to restart");
@@ -106,21 +110,21 @@ public final class Solver {
 	}
 	
 	
-	private static void solve(String fileName) {
-		try {
-			if(!fileName.substring(fileName.length()-4).equals(".txt")) {
-				throw new IOException("(invalid file type. Please use .txt)");
-			}
-			
+	public static void solve(String fileName) throws IOException, StringIndexOutOfBoundsException {
+		
+		
+		if(fileName.length()<4 || !fileName.substring(fileName.length()-4).equals(".txt")) {
+			throw new IOException("(invalid file type. Please use .txt)");
+		}
+		
+		try {			
 			int[][] board;
 			File boardFile = new File(fileName);
 			Printer printer = new Printer();
 			Parser parser = new Parser();
 			
 			board = parser.readBoard(boardFile);
-			if(!Backtrack.validBoard(board)) {
-				throw new IOException("(Invalid puzzle)");
-			}
+			Backtrack.validBoard(board);
 			
 			System.out.println("\nUnsolved puzzle:");
 			printer.printBoard(board);

@@ -1,5 +1,6 @@
 package com.goldman;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -33,17 +34,15 @@ public final class Backtrack {
 		return true;
 	}
 	
-	public final static boolean  validBoard(int[][] board) {
+	public final static void validBoard(int[][] board) throws IOException {
 		for (int row = 0; row < 9; row++) {
 			for (int col = 0; col < 9; col++) {
 				if(board[row][col] == 0) {continue;}
 				if(!isValid(row, col,board[row][col], board)) {
-					System.out.println("row: "+row+" col: "+col+" cell: "+board[row][col]);
-					return false;
+					throw new IOException("(Invalid puzzle)");
 				}
 			}
 		}
-		return true;
 	}
 	
 	private final static boolean containsInRow(int row, int col, int number, int[][] board) {
