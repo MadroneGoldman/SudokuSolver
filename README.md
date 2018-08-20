@@ -14,7 +14,7 @@ The advantage of this method is that it is simple, has a faster solving time tha
 ## Constraint Propagation
 My constraint propagation is based off of the [AC-3 algorithm](https://en.wikipedia.org/wiki/AC-3_algorithm):
 
-\\\
+```
 
  Input:
    A set of variables X
@@ -51,7 +51,7 @@ My constraint propagation is based off of the [AC-3 algorithm](https://en.wikipe
              change := true
          }
      return change
-\\\
+```
 
 but with a few simple rules as constraints.
 ###### Rules
@@ -69,8 +69,8 @@ The backtracking portion of my code is a depth first search that tries all possi
 # Results
 Here are the solutions and average running times for each of the 5 challenge puzzles on my computer a 4.20GHz processor with 16 GB of RAM. 
 
-###### Puzzle 1 Solution
-\\\
+## Puzzle 1 Solution
+```
 
 428159673
 196374825
@@ -82,25 +82,10 @@ Here are the solutions and average running times for each of the 5 challenge puz
 617945238
 859237416
 **Average SolveTime: < 1 Millisecond**
-\\\
+```
 
-###### Puzzle 2 Solution
-\\\
-
-921768543
-463519872
-875432961
-594283617
-712645389
-638971425
-349827156
-256194738
-187356294
-**Average SolveTime: < 1 Millisecond**
-\\\
-
-###### Puzzle 3 Solution
-\\\
+## Puzzle 2 Solution
+```
 
 921768543
 463519872
@@ -112,10 +97,25 @@ Here are the solutions and average running times for each of the 5 challenge puz
 256194738
 187356294
 **Average SolveTime: < 1 Millisecond**
-\\\
+```
 
-###### Puzzle 4 Solution
-\\\
+## Puzzle 3 Solution
+```
+
+921768543
+463519872
+875432961
+594283617
+712645389
+638971425
+349827156
+256194738
+187356294
+**Average SolveTime: < 1 Millisecond**
+```
+
+## Puzzle 4 Solution
+```
 
 534678912
 672195348
@@ -127,10 +127,10 @@ Here are the solutions and average running times for each of the 5 challenge puz
 287419635
 345286179
 **Average SolveTime: < 1 Millisecond**
-\\\
+```
 
-###### Puzzle 5 Solution
-\\\
+## Puzzle 5 Solution
+```
 
 915348627
 348672159
@@ -142,7 +142,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 183297546
 259463871
 **Average SolveTime: 1 Millisecond**
-\\\
+```
 
 # Design
 
@@ -160,8 +160,8 @@ I did unit testing for the following cases:
 I would like to point out a possible downfall of my program: Some Sudoku puzzles have more than one solution but my algorithm will only ever find one. My algorithm will also never know if more than one solution is possible for a Sodoku.
 
 It should also be noted that my OnlyChoice class and methods which enforce Rule 3: If a certain value is only allowed in one cell in a given peer group then it must be the value of that cell. Ended up doing very little pruning on most puzzles. All the constraint propagation heavy lifting was done by the methods enforcing rules 1 and 2. But some light benchmarking revealed that OnlyChoice still speeds up the solution time more than it slows it down. There are also some additional rules/constraints that can be added to further speed up the algorithm and extend the functionality of the application. I listed a few below.
-###### Additional Rules
-1.A certain value is allowed only on one column or row inside a section, thus we can eliminate this value from that row or column in the other sections.
-2.[Naked Pairs.](https://www.sudokuoftheday.com/techniques/naked-pairs-triples/) If two cells in the same peer group have the same two possible values then those values can be removed from the domain of the rest of the peer group.
-4. Naked Triples. Same idea but with three cells.
+## Additional Rules
+1. A certain value is allowed only on one column or row inside a section, thus we can eliminate this value from that row or column in the other sections.
+2. [Naked Pairs.](https://www.sudokuoftheday.com/techniques/naked-pairs-triples/) If two cells in the same peer group have the same two possible values then those values can be removed from the domain of the rest of the peer group.
+3. Naked Triples. Same idea but with three cells.
 
