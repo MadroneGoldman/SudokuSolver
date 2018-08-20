@@ -7,6 +7,7 @@ import java.util.Iterator;
 public final class Backtrack {
 	
 	public final static boolean solve(int[][] board) {
+		board = Solver.board;
 		
 		for (int row = 0; row < 9; row++) {
 			for (int col = 0; col < 9; col++) {

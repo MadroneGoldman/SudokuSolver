@@ -16,7 +16,7 @@ public final class Parser {
 	}
 
 	final int[][] readBoard(final File file) throws IOException, NotEnoughCluesException {
-		int[][] board = new int[9][9];
+		int[][] board = Solver.board;
 		
 		BufferedReader input = new BufferedReader(new FileReader(file));
 

@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public final class Solver {
 
+	public static int[][] board = new int[9][9];
 	public static ArrayList<HashSet<Integer>> cellDomain = new ArrayList<HashSet<Integer>>();	
 
 	public static final void main(String[] args) {
@@ -63,11 +64,12 @@ public final class Solver {
 					puzzles[2] = System.getProperty("user.dir")+"\\puzzles\\puzzle3.txt";
 					puzzles[3] = System.getProperty("user.dir")+"\\puzzles\\puzzle4.txt";
 					puzzles[4] = System.getProperty("user.dir")+"\\puzzles\\puzzle5.txt";
-					
+						
 					try {
 						for(String fileName:puzzles) {
+							cellDomain.clear();
 							solve(fileName);
-						}	
+						}
 					}catch (InputMismatchException e) {
 						System.out.println("ERROR incorrect input");
 					} catch (IOException e) {
@@ -117,8 +119,8 @@ public final class Solver {
 			throw new IOException("(invalid file type. Please use .txt)");
 		}
 		
-		try {			
-			int[][] board;
+		try {	
+			
 			File boardFile = new File(fileName);
 			Printer printer = new Printer();
 			Parser parser = new Parser();
@@ -126,7 +128,7 @@ public final class Solver {
 			board = parser.readBoard(boardFile);
 			Backtrack.validBoard(board);
 			
-			System.out.println("\nUnsolved puzzle:");
+			System.out.println("\nUnsolved "+boardFile.getName()+":");
 			printer.printBoard(board);
 			
 			final long timeBefore = System.nanoTime();
@@ -135,7 +137,7 @@ public final class Solver {
 			Backtrack.solve(board);
 			final long timeAfter = System.nanoTime();
 			
-			System.out.println("\nSolved puzzle:");
+			System.out.println("\nSolved "+boardFile.getName()+":");
 			printer.printBoard(board);
 			System.out.println("solved in " + ((timeAfter - timeBefore)/1000000) + " miliseconds");
 			
