@@ -1,6 +1,9 @@
 # SudokuSolver
 An application that solves Sudoku puzzles with a constraint propagation algorithm
 
+# Usage
+Download .jar file and puzzles from the [Release Page](https://github.com/MadroneGoldman/SudokuSolver/releases/tag/1) or clone the repository and build the project yourself. If using the executable .jar file, follow instruction. There are two options either select the option to run all 5 challenge puzzles or select the option to run a specifice puzzle and then enter the file path for that puzzle.
+
 # The Problem
 [Sudoku](https://en.wikipedia.org/wiki/Sudoku) is a number-placment puzzle where you start with a 9x9 grid with 17 or more cells filled in.
 The objective is to fill the grid with digits so that each column, each row, and each of the nine 3×3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contains all of the digits from 1 to 9.
@@ -142,9 +145,6 @@ Average SolveTime: < 1 Millisecond
 259463871
 Average SolveTime: 1 Millisecond
 ```
-
-# Design
-
 # Testing
 I did unit testing for the following cases:
 * Invalid Board(less than 17 clues)
