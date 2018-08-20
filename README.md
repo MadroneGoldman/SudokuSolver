@@ -13,7 +13,9 @@ The advantage of this method is that it is simple, has a faster solving time tha
 
 ## Constraint Propagation
 My constraint propagation is based off of the [AC-3 algorithm](https://en.wikipedia.org/wiki/AC-3_algorithm):
- \\\
+
+\\\
+
  Input:
    A set of variables X
    A set of domains D(x) for each variable x in X. D(x) contains vx0, vx1... vxn, the possible values of x
@@ -24,10 +26,10 @@ My constraint propagation is based off of the [AC-3 algorithm](https://en.wikipe
    Arc consistent domains for each variable.
  
  function ac3 (X, D, R1, R2)
- // Initial domains are made consistent with unary constraints.
+  Initial domains are made consistent with unary constraints.
      for each x in X
          D(x) := { vx in D(x) | R1(x) }   
-     // 'worklist' contains all arcs we wish to prove consistent or not.
+      'worklist' contains all arcs we wish to prove consistent or not.
      worklist := { (x, y) | there exists a relation R2(x, y) or a relation R2(y, x) }
  
      do
@@ -49,7 +51,7 @@ My constraint propagation is based off of the [AC-3 algorithm](https://en.wikipe
              change := true
          }
      return change
- \\\
+\\\
 
 but with a few simple rules as constraints.
 ###### Rules
@@ -69,6 +71,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 
 ###### Puzzle 1 Solution
 \\\
+
 428159673
 196374825
 375862941
@@ -83,6 +86,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 
 ###### Puzzle 2 Solution
 \\\
+
 921768543
 463519872
 875432961
@@ -97,6 +101,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 
 ###### Puzzle 3 Solution
 \\\
+
 921768543
 463519872
 875432961
@@ -111,6 +116,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 
 ###### Puzzle 4 Solution
 \\\
+
 534678912
 672195348
 198342567
@@ -125,6 +131,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 
 ###### Puzzle 5 Solution
 \\\
+
 915348627
 348672159
 762159483
