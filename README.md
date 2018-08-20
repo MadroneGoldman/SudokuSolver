@@ -4,7 +4,6 @@ An application that solves Sudoku puzzles with a constraint propagation algorith
 # The Problem
 [Sudoku](https://en.wikipedia.org/wiki/Sudoku) is a number-placment puzzle where you start with a 9x9 grid with 17 or more cells filled in.
 The objective is to fill the grid with digits so that each column, each row, and each of the nine 3×3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contains all of the digits from 1 to 9.
-d peer groups
 
 # Method
 I chose to model Sudoku as a constraint satisfaction problem where I build a sequence of constraints based on Sudoku rules and reduce the domain size of the variables (each cell) through constraint propagation. Lots of "easier" sudoku boards are can be solved with just constraint propagation but unfortunatly harder puzzles can never be solved through constraint propagation alone. Because of this, I use a standard backtracking search algorithm after the constraint propagation. Backtracking is a brute force approach to a constraint satisfaction problem and although it can be slow, it will always find the answer to any valid puzzle. For easier puzzles the backtracker in my application simply places the already solved values into eah cell and double checks that they are valid placments. But for harder puzzles the backtracker is used to find the solution after the search tree has been significantly pruned down by constraint propagation.
@@ -81,7 +80,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 243681759
 617945238
 859237416
-**Average SolveTime: < 1 Millisecond**
+Average SolveTime: < 1 Millisecond
 ```
 
 ## Puzzle 2 Solution
@@ -96,7 +95,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 349827156
 256194738
 187356294
-**Average SolveTime: < 1 Millisecond**
+Average SolveTime: < 1 Millisecond
 ```
 
 ## Puzzle 3 Solution
@@ -111,7 +110,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 349827156
 256194738
 187356294
-**Average SolveTime: < 1 Millisecond**
+Average SolveTime: < 1 Millisecond
 ```
 
 ## Puzzle 4 Solution
@@ -126,7 +125,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 961537284
 287419635
 345286179
-**Average SolveTime: < 1 Millisecond**
+Average SolveTime: < 1 Millisecond
 ```
 
 ## Puzzle 5 Solution
@@ -141,7 +140,7 @@ Here are the solutions and average running times for each of the 5 challenge puz
 476581392
 183297546
 259463871
-**Average SolveTime: 1 Millisecond**
+Average SolveTime: 1 Millisecond
 ```
 
 # Design
